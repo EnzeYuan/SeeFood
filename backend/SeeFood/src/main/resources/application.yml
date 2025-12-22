@@ -1,0 +1,40 @@
+#jdbc:mysql:aws://localhost:3306
+#data source
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/seefood?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: 192.168.129.131
+      port: 6379
+      password: 19782100
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: 10000ms
+  application:
+    name: socialPlatform
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+# ===========================================
+# 🔥 关键修改：服务器监听配置
+# ===========================================
+server:
+  address: 0.0.0.0      # 监听所有网络接口，允许外部访问
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+logging:
+  level:
+    org.springframework.security: DEBUG

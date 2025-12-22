@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="maynooth.seefood.mapper.CartMapper">
+
+
+    <update id="updatePrice">
+        update cart set price =price where (cartId =#{cartId});
+    </update>
+<!--    <update id="reducePrice">-->
+<!--        update cart set price =price-#{price} where (cartId =#{cartId});-->
+<!--    </update>-->
+
+    <update id="updatePayed">
+        update cart set payed = true , orderTime = #{orderTime} where cartId = #{cartId};
+    </update>
+    <update id="updateCart">
+        update cart set count = #{count} where cartId=#{cartId}
+    </update>
+
+    <delete id="deleteCart">
+        delete from cart where cartId=#{cartId};
+    </delete>
+
+    <insert id="addToCart" keyProperty="cartId" useGeneratedKeys="true">
+        insert into cart (userId,seafoodId,count, payed,price) value (#{userId},#{seafoodId},1,false,#{price});
+    </insert>
+
+    <select id="selectWhetherBySeafoodId" resultType="maynooth.seefood.pojo.DTO.CartDTO">
+        select * from cart where (userId = #{userId}) and (seafoodId = #{seafoodId}) and (payed = false);
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count from cart where (cartId =#{cartId});
+    </select>
+    <select id="selectCart" resultType="maynooth.seefood.pojo.DTO.CartDTO">
+        select * from cart where cartId = #{cartId};
+    </select>
+    <select id="selectNoPayedCart" resultType="maynooth.seefood.pojo.DTO.CartDTO">
+        select * from cart where userId=#{userId} and payed=false;
+    </select>
+    <select id="selectPayedCartByUserId" resultType="maynooth.seefood.pojo.DTO.CartDTO">
+        select * from cart where userId=#{userId} and payed=true;
+
+    </select>
+</mapper>

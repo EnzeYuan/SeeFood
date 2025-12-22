@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="maynooth.seefood.mapper.IngredientMapper">
+
+
+    <insert id="addIngredientToCart" >
+        insert into ingredientCart (ingredientId, userId, count, payed) VALUE (#{ingredientId},#{userId},1,false)
+    </insert>
+    <insert id="addIngredient" useGeneratedKeys="true" keyProperty="ingredientId">
+        insert into ingredient (ingredientName, ingredientPrice, ingredientPic) VALUE (#{ingredientName},#{ingredientPrice},#{ingredientPic})
+    </insert>
+    <update id="updateCount">
+        update ingredientCart set count=#{count} where iCartId=#{iCartId}
+    </update>
+    <update id="updatePayed">
+        update ingredientcart set payed=true , orderTime=#{orderTime} where iCartId=#{iCartId}
+    </update>
+    <update id="updatePrice">
+        update ingredientCart set price = #{total2} where iCartId=#{iCartId}
+    </update>
+    <delete id="deleteIngredientCart">
+        delete from ingredientcart where iCartId=#{iCartId}
+    </delete>
+    <select id="selectIngredientByIngredientName" resultType="java.lang.Integer">
+        select ingredientId from ingredient where ingredientName=#{ingeredientName}
+    </select>
+<!--    <select id="selectIngredientCountFromCart" resultType="java.lang.Integer">-->
+<!--        select count from ingredientCart where ingredientId = (select ingredientId from ingredient where ingredientName=#{ingredientName}) and userId=#{userId};-->
+<!--    </select>-->
+    <select id="selectIngredientCartIdFromCart" resultType="java.lang.Integer">
+        select iCartId from ingredientCart where ingredientId = (select ingredientId from ingredient where ingredientName=#{ingredientName}) and userId=#{userId};
+    </select>
+    <select id="selectIngredientCountFromCart" resultType="java.lang.Integer">
+        select count from ingredientCart where iCartId =#{iCartId}
+    </select>
+
+    <select id="selectIngredientByICartId" resultType="maynooth.seefood.pojo.PO.IngredientPO">
+        select * from ingredient where ingredientId=(select ingredientId from ingredientcart where iCartId=#{iCartId})
+    </select>
+    <select id="selectNoPayedIngredients" resultType="maynooth.seefood.pojo.PO.ICartPO">
+        select * from ingredientcart where payed=false and userId=#{userId};
+    </select>
+    <select id="selectIngredientById" resultType="maynooth.seefood.pojo.PO.IngredientPO">
+        select * from ingredient where ingredientId=#{ingredientId}
+    </select>
+    <select id="selectPayedIngredients" resultType="maynooth.seefood.pojo.PO.ICartPO">
+        select * from ingredientcart where payed=true and userId=#{userId};
+
+    </select>
+    <select id="selectIngredientByCartId" resultType="java.lang.Integer">
+        select ingredientId from ingredientcart where iCartId=#{iCartId}
+    </select>
+
+</mapper>

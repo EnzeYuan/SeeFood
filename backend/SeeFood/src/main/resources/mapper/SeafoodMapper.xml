@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:填写映射当前的Mapper接口，所有的增删改查的参数和返回值类型，
+		就可以直接填写缩写，不区分大小写，直接通过方法名去找类型-->
+<mapper namespace="maynooth.seefood.mapper.SeafoodMapper">
+    <insert id="putLike">
+        insert into `like` (userId, seafoodId) value (#{userId},#{seafoodId});
+    </insert>
+    <insert id="addSeafood" useGeneratedKeys="true" keyProperty="seafoodId">
+        insert into seafood (seafoodName, seafoodBrief, seafoodImage, views, season, tags, cost) value (#{seafoodName},#{seafoodBrief},#{seafoodImage},1,#{season},#{tags},#{cost});
+    </insert>
+
+    <update id="putViews">
+        update seafood set views = views+1 where seafoodId = #{seafoodId} ;
+    </update>
+    <delete id="deleteLike">
+        delete from `like` where seafoodId=#{seafoodId} and userId=#{userId};
+    </delete>
+
+
+    <select id="getSeafoodInPopularity" resultType="maynooth.seefood.pojo.PO.SeafoodPO">
+        select * from seafood order by views desc ;
+    </select>
+    <select id="getSeafoodById" resultType="maynooth.seefood.pojo.PO.SeafoodPO">
+        select * from seafood where seafoodId = #{seafoodId};
+    </select>
+    <select id="getSeafoodBySeason" resultType="maynooth.seefood.pojo.PO.SeafoodPO">
+        select * from seafood where season in (#{month},#{month}-1,#{month}+1);
+    </select>
+    <select id="getSeafoodByTag" resultType="maynooth.seefood.pojo.PO.SeafoodPO">
+        select * from seafood where tags=#{tag}
+    </select>
+
+</mapper>
