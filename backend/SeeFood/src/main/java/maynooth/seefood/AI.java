@@ -111,7 +111,7 @@ class JsonWrapper {
 
 public class AI {
     private static final Logger logger = LoggerFactory.getLogger(AI.class);
-    private static final String GEMINI_API_KEY = "AIzaSyB7J1kLiztcAze7Llv-E7OZu0X7Z3QeShw";
+  //  private static final String GEMINI_API_KEY = "AIzaSyB7J1kLiztcAze7Llv-E7OZu0X7Z3QeShw";
     private static final String MODEL_NAME = "gemini-2.5-flash";
     private static final String GEMINI_API_URL =
             "https://generativelanguage.googleapis.com/v1/models/" +
